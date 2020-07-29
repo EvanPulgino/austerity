@@ -1,0 +1,58 @@
+.gameLayout {
+    display: flex;
+    flex-direction: column;
+}
+
+.gameColumnLayout {
+    display: flex;
+    flex-direction: row;
+}
+
+.gameRowLayout {
+    display: flex;
+    flex-direction: row;
+}
+
+.gameColumn {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-content: space-between;
+    padding-left: 25px;
+    padding-right: 25px;
+}
+
+.institutions {
+    display: grid;
+    grid-template-rows: 1fr, 2fr, 2fr, 2fr;
+    grid-gap: 10px;
+}
+
+.actions {
+    display: grid;
+    grid-gap: 15px;
+    grid-template-rows: 1fr, 2fr, 2fr, 2fr;
+}
+
+.sectionTitle {
+    font-size: 25px;
+    line-height: 25px;
+    font-weight: 800;
+    color: var(--slate);
+}
+
+.events {
+    display: flex;
+    flex-direction: column;
+}
+
+.eventsGrid {
+    display: grid;
+    grid-template-rows: repeat(3, 1fr);
+    grid-template-columns: repeat(5, 1fr);
+    grid-gap: 2px;
+}
+
+.areas {
+    display: flex;
+}

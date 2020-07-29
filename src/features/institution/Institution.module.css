@@ -1,0 +1,140 @@
+.institution {
+    background-color: whitesmoke;
+    width: 300px;
+}
+
+.institutionHeaderFooter {
+    color: whitesmoke;
+    height: 19px;
+    font-size: 15px;
+    line-height: 19px;
+    font-weight: 800;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.institutionAction {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 1px;
+}
+
+.institutionIncomeIcon {
+    width: 45px;
+    height: 45px;
+}
+
+.institutionArrow {
+    width: 45px;
+    height: 45px;
+}
+
+.institutionActionEffect {
+    line-height: 45px;
+    height: 45px;
+}
+
+.institutionActionText {
+    display: inline-block;
+    vertical-align: middle;
+    font-weight: 800;
+    font-size: 13px;
+}
+
+.institutionActionCube {
+    width: 35px;
+    height: 35px;
+    vertical-align: middle;
+    padding-left: 10px;
+}
+
+.institutionCuts {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 5px;
+}
+
+.institutionCutImage {
+    height: 30px;
+}
+
+.institutionGrid {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    height: 35px;
+    line-height: 29px;
+    text-align: center;
+    font-size: 10px;
+    padding: 7.5px;
+}
+
+.institutionGridStartSpace {
+    width: 32px;
+}
+
+.institutionGridSpace {
+    width: 32px;
+}
+
+.institutionGridFinalSpace {
+    width: 115px;
+}
+
+.institutionCutText {
+    display: inline-block;
+    vertical-align: middle;
+    font-weight: 625;
+    font-size: 12px;
+}
+
+.institutionCutCube {
+    width: 25px;
+    height: 25px;
+    vertical-align: middle;
+    padding-left: 10px;
+}
+
+.nationalSecurityDark {
+    background-color: var(--national-security-color-dark) !important;
+}
+
+.nationalSecurityLight {
+    background-color: var(--national-security-color-light) !important;
+    border: 3px solid var(--national-security-color-light);
+}
+
+.nationalSecurityMedium {
+    background-color: var(--national-security-color-medium) !important;
+    border: 3px solid var(--national-security-color-medium);
+}
+
+.privateEnterpriseDark {
+    background-color: var(--private-enterprise-color-dark) !important;
+}
+
+.privateEnterpriseLight {
+    background-color: var(--private-enterprise-color-light) !important;
+    border: 3px solid var(--private-enterprise-color-light);
+}
+
+.privateEnterpriseMedium {
+    background-color: var(--private-enterprise-color-medium) !important;
+    border: 3px solid var(--private-enterprise-color-medium);
+}
+
+.socialWelfareDark {
+    background-color: var(--social-welfare-color-dark) !important;
+}
+
+.socialWelfareLight {
+    background-color: var(--social-welfare-color-light) !important;
+    border: 3px solid var(--social-welfare-color-light);
+}
+
+.socialWelfareMedium {
+    background-color: var(--social-welfare-color-medium) !important;
+    border: 3px solid var(--social-welfare-color-medium);
+}

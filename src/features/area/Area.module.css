@@ -1,0 +1,38 @@
+.area {
+    padding: 10px;
+}
+
+.areaTitle {
+    padding-top: 10px;
+    height: 40px;
+    font-size: 25px;
+    line-height: 25px;
+    font-weight: 800;
+    color: var(--slate);
+}
+
+.areaBox {
+    background-color: whitesmoke;
+}
+
+.areaCubeGrid {
+    width: 250px;
+    height: 70px;
+    display: flex;
+    justify-content: space-around;
+    border: 3px solid var(--slate);
+}
+
+.areaCubeItem {
+    padding: 7.5px;
+}
+
+.areaCube {
+    width: 35px;
+    height: 35px;
+}
+
+.cubeCount {
+    font-weight: 900;
+    color: var(--slate);
+}

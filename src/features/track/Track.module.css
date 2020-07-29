@@ -1,0 +1,128 @@
+.track {
+    display: flex;
+    justify-content: flex-end;
+    padding: 5px;
+    height: 50px;
+}
+
+.trackTitle {
+    text-align: right;
+    font-size: 15px;
+    font-weight: 750;
+    line-height: 50px;
+    text-transform: uppercase;
+    padding-right: 5px;
+}
+
+.trackGrid {
+    display: grid;
+    grid-template-columns: repeat(11, 1fr);
+    grid-gap: 5px;
+}
+
+.trackItem {
+    display: flex;
+    flex-direction: column;
+    border: 3px solid;
+    font-weight: 700;
+    width: 44px;
+    line-height: 20.5px;
+}
+
+.trackTerminalItem {
+    border: 3px solid;
+    font-weight: 750;
+    color: whitesmoke;
+    width: 44px;
+    line-height: 20.5px;
+}
+
+.incomeIconContainer {
+    display: flex;
+    justify-content: space-around;
+}
+
+.trackIncomeIcon {
+    width: 20px;
+    height: 20px;
+}
+
+.employmentBorderDark {
+    border-color: var(--employment-color-dark);
+}
+
+.employmentBorderLight {
+    border-color: var(--employment-color-light);
+}
+
+.employmentDark {
+    background-color: var(--employment-color-dark) !important;
+}
+
+.employmentLight {
+    background-color: var(--employment-color-light) !important;
+}
+
+.healthBorderDark {
+    border-color: var(--health-color-dark);
+}
+
+.healthBorderLight {
+    border-color: var(--health-color-light);
+}
+
+.healthDark {
+    background-color: var(--health-color-dark) !important;
+}
+
+.healthLight {
+    background-color: var(--health-color-light) !important;
+}
+
+.popularityBorderDark {
+    border-color: var(--popularity-color-dark);
+}
+
+.popularityBorderLight {
+    border-color: var(--popularity-color-light);
+}
+
+.popularityDark {
+    background-color: var(--popularity-color-dark) !important;
+}
+
+.popularityLight {
+    background-color: var(--popularity-color-light) !important;
+}
+
+.publicSafetyBorderDark {
+    border-color: var(--public-safety-color-dark);
+}
+
+.publicSafetyBorderLight {
+    border-color: var(--public-safety-color-light);
+}
+
+.publicSafetyDark {
+    background-color: var(--public-safety-color-dark) !important;
+}
+
+.publicSafetyLight {
+    background-color: var(--public-safety-color-light) !important;
+}
+
+.wealthBorderDark {
+    border-color: var(--wealth-color-dark);
+}
+
+.wealthBorderLight {
+    border-color: var(--wealth-color-light);
+}
+
+.wealthDark {
+    background-color: var(--wealth-color-dark) !important;
+}
+
+.wealthLight {
+    background-color: var(--wealth-color-light) !important;
+}

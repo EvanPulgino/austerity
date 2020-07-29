@@ -1,0 +1,21 @@
+import * as Events from './EventConstants';
+
+export function getInitialEvents() {
+    return [
+        Events.INITIAL_ECONOMIC_DOWNTURN,
+        Events.INITIAL_UNDERFUNDED_POLICE_FORCE,
+        Events.INITIAL_POLITICAL_CORRUPTION,
+        Events.INITIAL_ANTI_AUSTERITY_PROTESTS,
+        Events.INITIAL_INDUSTRIAL_VIOLATIONS,
+        Events.INITIAL_WELFARE_CHEATS,
+        Events.INITIAL_BACK_TO_WORK_PROGRAMME,
+        Events.INITIAL_BUDGET_SURPLUS,
+        Events.INITIAL_EARLY_REPAYMENTS,
+        Events.INITIAL_SECURITY_SPENDING,
+        Events.INITIAL_FALLING_CRIME_RATES,
+        Events.INITIAL_SPECIAL_OPERATIONS,
+        Events.INITIAL_WELFARE_CHEAT_CRACKDOWN,
+        Events.INITIAL_NATIONALISED_HEALTHCARE_SPENDING,
+        Events.INITIAL_WELFARE_BUDGET_PROBLEMS
+    ];
+};

@@ -1,3 +1,27 @@
+:root {
+  --app-background: #dadbd5;
+  --slate: #2f4f4f;
+  --employment-color-light: #ebd7a6;
+  --employment-color-dark: #e09d37;
+  --health-color-light: #aeadcc;
+  --health-color-dark: #1e0da6;
+  --popularity-color-light: #8dc481;
+  --popularity-color-dark: #008830;
+  --public-safety-color-light: #d4d2da;
+  --public-safety-color-dark: #aea1c0;
+  --wealth-color-light: #eaca74;
+  --wealth-color-dark: #e28500;
+  --private-enterprise-color-dark: #de8a00;
+  --private-enterprise-color-medium: #eaca74;
+  --private-enterprise-color-light: #ebd7a6;
+  --national-security-color-dark: #1e03b4;
+  --national-security-color-medium: #aeadcc;
+  --national-security-color-light: #d4d2da;
+  --social-welfare-color-dark: #9e9f9b;
+  --social-welfare-color-medium: #bcbdb9;
+  --social-welfare-color-light: #cdcec9;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -10,4 +34,24 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.clickable {
+  pointer-events: auto !important;
+  cursor: pointer !important;
+}
+
+.highlighted {
+  border: 3px solid #000000 !important;
+  font-weight: 900 !important;
+}
+
+.invisible {
+  display: none !important;
+}
+
+.unclickable {
+  pointer-events: none !important;
+  cursor: auto !important;
+  color: gray !important;
 }

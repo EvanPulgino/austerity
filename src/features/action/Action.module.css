@@ -1,0 +1,44 @@
+.action {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    background-color: whitesmoke;
+    border: 3px solid var(--slate);
+    border-radius: 15px;
+    min-height: 100px;
+    min-width: 200px;
+    max-width: 250px;
+    padding: 10px;
+    align-self: center;
+}
+
+.action:hover {
+    transform: scale(1.05);
+    transition: all .3s ease-in-out;
+}
+
+.actionTitle {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.actionEffect {
+    font-size: 15px;
+    font-weight: 500;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.actionActionText {
+    display: inline-block;
+    vertical-align: middle;
+    font-weight: 700;
+    font-size: 50%;
+}
+
+.actionActionCube {
+    width: 25px;
+    height: 25px;
+    vertical-align: middle;
+    padding-left: 2px;
+}
