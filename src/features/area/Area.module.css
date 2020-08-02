@@ -11,16 +11,14 @@
     color: var(--slate);
 }
 
-.areaBox {
-    background-color: whitesmoke;
-}
-
 .areaCubeGrid {
+    background-color: whitesmoke;
     width: 250px;
     height: 70px;
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     border: 3px solid var(--slate);
+    border-radius: 15px;
 }
 
 .areaCubeItem {
@@ -30,6 +28,7 @@
 .areaCube {
     width: 35px;
     height: 35px;
+    border-radius: 5px;
 }
 
 .cubeCount {

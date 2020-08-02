@@ -1,5 +1,10 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
+import {
+    selectCurrentEvent,
+} from '../game/gameSlice';
 import * as Constants from '../../constants';
+import * as Util from '../../util';
 import * as Events from './EventConstants';
 import styles from './Event.module.css';
 
@@ -8,9 +13,10 @@ export function Event(props) {
     const name = props.name;
     const cubeZero = props.cubes[0];
     const cubeOne = props.cubes[1];
+    const currentEvent = useSelector(selectCurrentEvent);
 
     return (
-        <div id={`event-${id}`} className={styles.event}>
+        <div id={`event-${id}`} className={getEventClass(id, currentEvent)}>
             <img id={`event-${id}-cube-zero`} className={styles.eventCube} src={cubeZero} alt={`event-${id}-cube-zero`} />
             <img id={`event-${id}-cube-one`} className={styles.eventCube} src={cubeOne} alt={`event-${id}-cube-one`} />
             <div id={`event-${id}-text`} className={styles.eventText}>
@@ -21,6 +27,13 @@ export function Event(props) {
             </div>
         </div>
     )
+}
+
+function getEventClass(id, currentEvent) {
+    if (id === currentEvent) {
+        return Util.makeImportantEvent(styles.event);
+    }
+    return styles.event;
 }
 
 function getEventEffect(eventId) {

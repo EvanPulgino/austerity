@@ -9,7 +9,9 @@ import {
 } from './gameSlice';
 import { Action } from '../action/Action';
 import { Area } from '../area/Area';
+import { DrawFromBagButton } from '../drawFromBagButton/DrawFromBagButton';
 import { Event } from '../event/Event';
+import { EventHandler } from '../eventHandler/EventHandler';
 import { Institution } from '../institution/Insitution';
 import { Track } from '../track/Track';
 import styles from './Game.module.css'
@@ -37,9 +39,15 @@ export function Game() {
                     </div>
                 </div>
                 <div id="game-col-3" className={styles.gameColumn}>
-                    <div id="tracks" className={styles.tracks}>
-                        <h2 id='tracks-title' className={styles.sectionTitle}>Tracks</h2>
-                        {buildTrackComponents(tracks)}
+                    <div id="game-mid-row" className={styles.gameRowLayout}>
+                        <div id="status-area" className={styles.statusArea}>
+                            <EventHandler />
+                            <DrawFromBagButton />
+                        </div>
+                        <div id="tracks" className={styles.tracks}>
+                            <h2 id='tracks-title' className={styles.sectionTitle}>Tracks</h2>
+                            {buildTrackComponents(tracks)}
+                        </div>
                     </div>
                     <div id="areas" className={styles.areas}>
                         {buildAreaComponents(areas)}
@@ -61,6 +69,7 @@ export function Game() {
 function buildActionComponents(actions) {
     return actions.map((action) => (
         <Action
+            key={action.id}
             id={action.id}
             name={action.name}
             actionPossible={action.actionPossible} />
@@ -70,15 +79,16 @@ function buildActionComponents(actions) {
 function buildAreaComponents(areas) {
     return areas.map((area) => (
         <Area
+            key={area.name}
             name={area.name}
             contents={area.contents} />
     ))
 }
 
 function buildEventComponents(events) {
-    console.log(events);
     return events.map((event) => (
         <Event
+            key={event.id}
             id={event.id}
             name={event.name}
             cubes={event.cubes} />
@@ -88,6 +98,7 @@ function buildEventComponents(events) {
 function buildInstitutionComponents(institutions) {
     return institutions.map((institution) => (
         <Institution
+            key={institution.id}
             id={institution.id}
             name={institution.name}
             cuts={institution.cuts}
@@ -97,7 +108,8 @@ function buildInstitutionComponents(institutions) {
 
 function buildTrackComponents(tracks) {
     return tracks.map((track) => (
-        <Track 
+        <Track
+            key={track.id}
             id={track.id}
             name={track.name}
             value={track.value} />

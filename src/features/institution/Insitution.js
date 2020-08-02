@@ -13,7 +13,7 @@ export function Institution(props) {
 
     return (
         <div id={`instituion-${id}`} className={styles.institution}>
-            <div id={`institution-${id}-header`} className={getHeaderFooterClass(id)}>
+            <div id={`institution-${id}-header`} className={getHeaderClass(id)}>
                 {name}
             </div>
             <div id={`institution-${id}-action`} className={styles.institutionAction}>
@@ -38,7 +38,7 @@ export function Institution(props) {
                 <div id={`institution-${id}-grid-2`} className={getGridSpaceClass(id, 2, value, styles.institutionGridSpace)} />
                 {getCutsEffect(id, value)}
             </div>
-            <div id={`institution-${id}-header`} className={getHeaderFooterClass(id)} />
+            <div id={`institution-${id}-header`} className={getFooterClass(id)} />
         </div>
     );
 };
@@ -84,6 +84,7 @@ function getCuts(id, cuts) {
     for (var i = 0; i < cuts.length; i++) {
         cutsBlock.push(
             <img
+                key={`institution-${id}-${i}`}
                 id={`institution-${id}-${i}`}
                 className={styles.institutionCutImage}
                 src={cuts[i]}
@@ -160,16 +161,29 @@ function getGridStartSpaceClass(id, value) {
     }
 }
 
-function getHeaderFooterClass(id) {
+function getHeaderClass(id) {
     switch (id) {
         case Institutions.NATIONAL_SECURITY_ID:
-            return InstitutionUtil.addNationalSecurityDark(styles.institutionHeaderFooter);
+            return InstitutionUtil.addNationalSecurityDark(styles.institutionHeader);
         case Institutions.PRIVATE_ENTERPRISE_ID:
-            return InstitutionUtil.addPrivateEnterpriseDark(styles.institutionHeaderFooter);
+            return InstitutionUtil.addPrivateEnterpriseDark(styles.institutionHeader);
         case Institutions.SOCIAL_WELFARE_ID:
-            return InstitutionUtil.addSocialWelfareDark(styles.institutionHeaderFooter);
+            return InstitutionUtil.addSocialWelfareDark(styles.institutionHeader);
         default:
             return styles.institutionHeaderFooter
+    }
+};
+
+function getFooterClass(id) {
+    switch (id) {
+        case Institutions.NATIONAL_SECURITY_ID:
+            return InstitutionUtil.addNationalSecurityDark(styles.institutionFooter);
+        case Institutions.PRIVATE_ENTERPRISE_ID:
+            return InstitutionUtil.addPrivateEnterpriseDark(styles.institutionFooter);
+        case Institutions.SOCIAL_WELFARE_ID:
+            return InstitutionUtil.addSocialWelfareDark(styles.institutionFooter);
+        default:
+            return styles.institutionFooter
     }
 };
 

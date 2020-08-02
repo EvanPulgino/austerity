@@ -27,6 +27,7 @@
     font-weight: 700;
     width: 44px;
     line-height: 20.5px;
+    border-radius: 5px
 }
 
 .trackTerminalItem {
@@ -35,6 +36,7 @@
     color: whitesmoke;
     width: 44px;
     line-height: 20.5px;
+    border-radius: 5px;
 }
 
 .incomeIconContainer {

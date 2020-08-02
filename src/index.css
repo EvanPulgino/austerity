@@ -42,8 +42,12 @@ code {
 }
 
 .highlighted {
-  border: 3px solid #000000 !important;
+  border: 3px solid black !important;
   font-weight: 900 !important;
+}
+
+.important-event {
+  border: 3px solid red !important;
 }
 
 .invisible {

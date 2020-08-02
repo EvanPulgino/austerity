@@ -1,9 +1,10 @@
 .institution {
     background-color: whitesmoke;
     width: 300px;
+    border-radius: 15px;
 }
 
-.institutionHeaderFooter {
+.institutionHeader {
     color: whitesmoke;
     height: 19px;
     font-size: 15px;
@@ -11,7 +12,22 @@
     font-weight: 800;
     text-align: center;
     text-transform: uppercase;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
 }
+
+.institutionFooter {
+    color: whitesmoke;
+    height: 19px;
+    font-size: 15px;
+    line-height: 19px;
+    font-weight: 800;
+    text-align: center;
+    text-transform: uppercase;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+
 
 .institutionAction {
     display: flex;
@@ -40,13 +56,14 @@
     vertical-align: middle;
     font-weight: 800;
     font-size: 13px;
+    padding-right: 5px;
 }
 
 .institutionActionCube {
     width: 35px;
     height: 35px;
     vertical-align: middle;
-    padding-left: 10px;
+    border-radius: 5px;
 }
 
 .institutionCuts {
@@ -58,6 +75,7 @@
 
 .institutionCutImage {
     height: 30px;
+    border-radius: 5px;
 }
 
 .institutionGrid {
@@ -73,14 +91,17 @@
 
 .institutionGridStartSpace {
     width: 32px;
+    border-radius: 5px;
 }
 
 .institutionGridSpace {
     width: 32px;
+    border-radius: 5px;
 }
 
 .institutionGridFinalSpace {
     width: 115px;
+    border-radius: 5px;
 }
 
 .institutionCutText {

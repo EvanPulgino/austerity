@@ -1,6 +1,7 @@
 // General CSS Styles
 export const CLICKABLE = 'clickable';
 export const HIGHLIGHTED = 'highlighted';
+export const IMPORTANT_EVENT = 'important-event';
 export const INVISIBLE = 'invisible';
 export const UNCLICKABLE = 'unclickable';
 
