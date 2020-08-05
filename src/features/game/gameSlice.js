@@ -82,9 +82,16 @@ export const gameSlice = createSlice({
             state.areas[0].contents.push({cube: Constants.DEBT_CUBE, clickable: false});
         },
         budgetSurplus: (state) => {
+            state.fundedInstitutions = [];
             state.tracks[2].value = Math.min((state.tracks[2].value + 1), 10);
-            // Add effect two after adding institution usage
-            state.currentEvent = undefined;
+
+            for (let i = 0; i < state.institutions.length; i++) {
+                if (state.institutions[i].funded) {
+                    state.fundedInstitutions.push(state.institutions[i].id);
+                }
+            }
+
+            state.currentEvent = 'refund-institutions';
         },
         checkVictory: (state) => {
             var hasDebt = Util.findObjectWithAttribute(state.areas[2].contents, "cube", Constants.DEBT_CUBE);
@@ -215,7 +222,7 @@ export const gameSlice = createSlice({
         earlyRepaymentsFromTreasury: (state) => {
             state.areas[3].contents.splice(0, 1);
             var debtCube = Util.findObjectWithAttribute(state.areas[1].contents, "cube", Constants.DEBT_CUBE);
-            state.areas[1].splice(debtCube, 1);
+            state.areas[1].contents.splice(debtCube, 1);
             state.currentEvent = undefined;
             state.actionsPossible = true;
         },
@@ -339,6 +346,24 @@ export const gameSlice = createSlice({
             state.areas[0].contents.push({cube: Constants.INCOME_CUBE, clickable: false});
             state.areas[0].contents.push({cube: Constants.UNREST_CUBE, clickable: false});
         },
+        refundDoNothing: (state) => {
+            state.currentEvent = undefined;
+        },
+        refundNationalSecurity: (state) => {
+            state.areas[2].contents.push({cube: Constants.SECURITY_CUBE, clickable: false});
+            state.areas[1].contents = [];
+            state.currentEvent = undefined;
+        },
+        refundPrivateEnterprise: (state) => {
+            state.tracks[0].value = Math.min(state.tracks[0].value + 1, 10);
+            state.areas[1].contents = [];
+            state.currentEvent = undefined;
+        },
+        refundSocialWelfare: (state) => {
+            state.areas[2].contents.push({cube: Constants.WELFARE_CUBE, clickable: false});
+            state.areas[1].contents = [];
+            state.currentEvent = undefined;
+        },
         removeLoanCube: (state, action) => {
             var cube = action.payload.cube;
             var area = action.payload.area;
@@ -400,6 +425,9 @@ export const gameSlice = createSlice({
                 state.currentEvent = undefined;
                 state.actionsPossible = true;
             }
+        },
+        startGame: (state) => {
+            state.gameStarted = true;
         },
         startNextYear: (state) => {
             state.areas[0].contents = state.areas[2].contents;
@@ -476,9 +504,11 @@ function initialState() {
         areas: AreaUtil.getInitialAreas(),
         cubesToRemove: [],
         events: EventUtil.getInitialEvents(),
+        fundedInstitutions: [],
         inTurn: false,
         inYearEnd: false,
         gameLost: false,
+        gameStarted: false,
         gameWon: false,
         institutions: InstitutionUtil.getInitialInstitutions(),
         institutionsToCut: [],
@@ -522,11 +552,16 @@ export const {
     politicalCorruption,
     putIncomeInTreasury,
     raiseTaxes,
+    refundDoNothing,
+    refundNationalSecurity,
+    refundPrivateEnterprise,
+    refundSocialWelfare,
     removeLoanCube,
     securitySpendingIncreasePopularity,
     securitySpendingIncreasePublicSafety,
     specialOperationsReducePublicSafety,
     specialOperationsRemoveCubes,
+    startGame,
     startNextYear,
     underfundedPoliceForceAddUnrest,
     underfundedPoliceForceTreasuryIncome,
@@ -544,6 +579,10 @@ export const selectCubesToRemove = state => state.game.cubesToRemove;
 export const selectCurrentEvent = state => state.game.currentEvent;
 export const selectCuts = state => state.game.cuts;
 export const selectEvents = state => state.game.events;
+export const selectFundedInstitutions = state => state.game.fundedInstitutions;
+export const selectGameLost = state => state.game.gameLost;
+export const selectGameStarted = state => state.game.gameStarted;
+export const selectGameWon = state => state.game.gameWon;
 export const selectInYearEnd = state => state.game.inYearEnd;
 export const selectInstitutions = state => state.game.institutions;
 export const selectInstitutionsToCut = state => state.game.institutionsToCut;

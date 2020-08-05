@@ -21,11 +21,16 @@ import {
     industrialViolations,
     nationalisedHealthcareSpending,
     politicalCorruption,
+    refundDoNothing,
+    refundNationalSecurity,
+    refundPrivateEnterprise,
+    refundSocialWelfare,
     securitySpendingIncreasePopularity,
     securitySpendingIncreasePublicSafety,
     selectCubesToRemove,
     selectCurrentEvent,
     selectCuts,
+    selectFundedInstitutions,
     selectInYearEnd,
     selectIncomeInTreasury,
     selectInstitutionsToCut,
@@ -43,12 +48,14 @@ import {
 import * as Constants from '../../constants';
 import * as Util from '../../util';
 import * as Events from '../event/EventConstants';
+import * as Institutions from '../institution/InstitutionConstants';
 import styles from './EventHandler.module.css';
 
 export function EventHandler() {
     const cubesToRemove = useSelector(selectCubesToRemove);
     const currentEvent = useSelector(selectCurrentEvent);
     const cuts = useSelector(selectCuts);
+    const fundedInstitutions = useSelector(selectFundedInstitutions);
     const inYearEnd = useSelector(selectInYearEnd);
     const incomeInTreasury = useSelector(selectIncomeInTreasury);
     const institutionsToCut = useSelector(selectInstitutionsToCut);
@@ -57,7 +64,7 @@ export function EventHandler() {
     return (
         <div id="current-event-handler" className={styles.currentEventHandler}>
             <div id="event-buttons" className={showEventButtons(currentEvent)}>
-                {handleEvent(currentEvent, incomeInTreasury, cubesToRemove, cuts, institutionsToCut, inYearEnd, dispatch)}
+                {handleEvent(currentEvent, incomeInTreasury, cubesToRemove, cuts, institutionsToCut, inYearEnd, fundedInstitutions, dispatch)}
             </div>
         </div>
     );
@@ -70,7 +77,7 @@ function showEventButtons(currentEvent) {
     return Util.makeInvisible(styles.eventButtons);
 }
 
-function handleEvent(currentEvent, incomeInTreasury, cubesToRemove, cuts, institutionsToCut, inYearEnd, dispatch) {
+function handleEvent(currentEvent, incomeInTreasury, cubesToRemove, cuts, institutionsToCut, inYearEnd, fundedInstitutions, dispatch) {
 
     if (inYearEnd) {
         return handleYearEnd(currentEvent, dispatch);
@@ -83,6 +90,8 @@ function handleEvent(currentEvent, incomeInTreasury, cubesToRemove, cuts, instit
             return handleCuts(dispatch, cuts);
         case "paying-loan":
             return handlePayingLoan(cubesToRemove);
+        case "refund-institutions":
+            return handleRefundInstitutions(fundedInstitutions, dispatch);
         case Events.ANTI_AUSTERITY_PROTESTS_ID:
             return handleAntiAusterityProtests(dispatch);
         case Events.BACK_TO_WORK_PROGRAMME_ID:
@@ -408,6 +417,51 @@ function handlePoliticalCorruption(dispatch) {
     return (
         <div id="political-corruption-button" className={styles.eventButton} onClick={() => dispatch(politicalCorruption())}>
             Decrease POPULARITY by one
+        </div>
+    );
+}
+
+function handleRefundInstitutions(fundedInstitutions, dispatch) {
+    var privateEnterpriseClass = styles.eventButton;
+    var nationalSecurityClass = styles.eventButton;
+    var socialWelfareClass = styles.eventButton;
+
+    if (!fundedInstitutions.includes(Institutions.PRIVATE_ENTERPRISE_ID)) {
+        privateEnterpriseClass = Util.makeUnclickable(privateEnterpriseClass);
+    }
+    if (!fundedInstitutions.includes(Institutions.NATIONAL_SECURITY_ID)) {
+        nationalSecurityClass = Util.makeUnclickable(nationalSecurityClass);
+    }
+    if (!fundedInstitutions.includes(Institutions.SOCIAL_WELFARE_ID)) {
+        socialWelfareClass = Util.makeUnclickable(socialWelfareClass);
+    }
+
+    return (
+        <div className={styles.eventButtons}>
+            <div
+                id="refund-private-enterprise"
+                className={privateEnterpriseClass}
+                onClick={() => dispatch(refundPrivateEnterprise())}>
+                    Fund Private Enterprise
+            </div>
+            <div
+                id="refund-national-security"
+                className={nationalSecurityClass}
+                onClick={() => dispatch(refundNationalSecurity())}>
+                    Fund National Security
+            </div>
+            <div
+                id="refund-social-welfare"
+                className={socialWelfareClass}
+                onClick={() => dispatch(refundSocialWelfare())}>
+                    Fund Social Welfare
+            </div>
+            <div
+                id="refund-no-action"
+                className={styles.eventButton}
+                onClick={() => dispatch(refundDoNothing())}>
+                    Do Nothing
+            </div>
         </div>
     );
 }

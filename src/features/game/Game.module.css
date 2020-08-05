@@ -1,3 +1,24 @@
+.titleScreenLayout {
+    color: var(--slate);
+    font-size: 100px;
+    font-weight: 900;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    height: 100vh;
+}
+
+.startGameButton {
+    width: 400px;
+    height: 100px;
+    font-weight: 800;
+    font-size: 40px;
+    background-color: whitesmoke;
+    border: 4px solid var(--slate);
+    border-radius: 15px;
+}
+
 .gameLayout {
     display: flex;
     flex-direction: column;

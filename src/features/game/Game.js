@@ -1,11 +1,13 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import {
     selectActions,
     selectAreas,
     selectEvents,
+    selectGameStarted,
     selectInstitutions,
     selectTracks,
+    startGame,
 } from './gameSlice';
 import { Action } from '../action/Action';
 import { Area } from '../area/Area';
@@ -14,53 +16,76 @@ import { Event } from '../event/Event';
 import { EventHandler } from '../eventHandler/EventHandler';
 import { Institution } from '../institution/Insitution';
 import { Track } from '../track/Track';
-import styles from './Game.module.css'
+import * as Util from '../../util';
+import styles from './Game.module.css';
 
 export function Game() {
+    const gameStarted = useSelector(selectGameStarted);
     const actions = useSelector(selectActions);
     const areas = useSelector(selectAreas);
     const events = useSelector(selectEvents);
     const institutions = useSelector(selectInstitutions);
     const tracks = useSelector(selectTracks);
+    const dispatch = useDispatch();
 
     return (
-        <div id="game-container" className={styles.gameLayout}>
-            <div id="game-column-container" className={styles.gameColumnLayout}>
-                <div id="game-col-1" className={styles.gameColumn}>
-                    <div id="institutions" className={styles.institutions}>
-                        {buildInstitutionComponents(institutions)}
-                    </div>
-                </div>
-                <div id="game-col-2" className={styles.gameColumn}>
-                    <div id="actions" className={styles.actions}>
-                        {buildActionComponents(actions)}
-                    </div>
-                </div>
-                <div id="game-col-3" className={styles.gameColumn}>
-                    <div id="game-mid-row" className={styles.gameRowLayout}>
-                        <div id="status-area" className={styles.statusArea}>
-                            <EventHandler />
-                            <DrawFromBagButton />
-                        </div>
-                        <div id="tracks" className={styles.tracks}>
-                            {buildTrackComponents(tracks)}
-                        </div>
-                    </div>
-                    <div id="areas" className={styles.areas}>
-                        {buildAreaComponents(areas)}
-                    </div>
-                </div>
+        <div>
+            <div id="title-screen" className={getTitleScreenClass(gameStarted)}>
+                Austerity
+                <button className={styles.startGameButton} onClick={() => dispatch(startGame())}>Start Game</button>
             </div>
-            <div id='game-bottom-row' className={styles.gameRowLayout}>
-                <div id='events' className={styles.events}>
-                    <h2 id='events-title' className={styles.sectionTitle}>Cube Draw Results</h2>
-                    <div id='events-grid' className={styles.eventsGrid}>
-                        {buildEventComponents(events)}
+            <div id="game-container" className={getGameLayoutClass(gameStarted)}>
+                <div id="game-column-container" className={styles.gameColumnLayout}>
+                    <div id="game-col-1" className={styles.gameColumn}>
+                        <div id="institutions" className={styles.institutions}>
+                            {buildInstitutionComponents(institutions)}
+                        </div>
+                    </div>
+                    <div id="game-col-2" className={styles.gameColumn}>
+                        <div id="actions" className={styles.actions}>
+                            {buildActionComponents(actions)}
+                        </div>
+                    </div>
+                    <div id="game-col-3" className={styles.gameColumn}>
+                        <div id="game-mid-row" className={styles.gameRowLayout}>
+                            <div id="status-area" className={styles.statusArea}>
+                                <EventHandler />
+                                <DrawFromBagButton />
+                            </div>
+                            <div id="tracks" className={styles.tracks}>
+                                {buildTrackComponents(tracks)}
+                            </div>
+                        </div>
+                        <div id="areas" className={styles.areas}>
+                            {buildAreaComponents(areas)}
+                        </div>
+                    </div>
+                </div>
+                <div id='game-bottom-row' className={styles.gameRowLayout}>
+                    <div id='events' className={styles.events}>
+                        <h2 id='events-title' className={styles.sectionTitle}>Cube Draw Results</h2>
+                        <div id='events-grid' className={styles.eventsGrid}>
+                            {buildEventComponents(events)}
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     );
+}
+
+function getTitleScreenClass(gameStarted) {
+    if (gameStarted) {
+        return Util.makeInvisible(styles.titleScreenLayout);
+    }
+    return styles.titleScreenLayout;
+}
+
+function getGameLayoutClass(gameStarted) {
+    if (gameStarted) {
+        return styles.gameLayout;
+    }
+    return Util.makeInvisible(styles.gameLayout);
 }
 
 function buildActionComponents(actions) {
