@@ -6,10 +6,13 @@ import {
     endYear,
     fundInstitution,
     putIncomeInTreasury,
+    reset,
     selectCanEndTurn,
     selectCanEndYear,
     selectCanFundInstitution,
     selectDrawDisabled,
+    selectGameLost,
+    selectGameWon,
     selectHasIncomeToSpend,
 } from '../game/gameSlice';
 import * as Util from '../../util';
@@ -20,6 +23,8 @@ export function DrawFromBagButton() {
     const canEndYear = useSelector(selectCanEndYear);
     const canFundInstitution = useSelector(selectCanFundInstitution);
     const drawDisabled = useSelector(selectDrawDisabled);
+    const gameLost = useSelector(selectGameLost);
+    const gameWon = useSelector(selectGameWon)
     const hasIncomeToSpend = useSelector(selectHasIncomeToSpend);
     const dispatch = useDispatch();
 
@@ -44,7 +49,12 @@ export function DrawFromBagButton() {
                     <div id="draw-cubes-text" className={styles.drawCubesText}>End Turn</div>
                 </div>
             </div>
-            
+            <button id="game-lost-button" className={getButtonClass(!gameLost)} onClick={() => dispatch(reset())}>
+                <div id="game-lost-text" className={styles.drawCubesText}>You Lose. Play Again</div>
+            </button>
+            <button id="game-won-button" className={getButtonClass(!gameWon)} onClick={() => dispatch(reset())}>
+                <div id="game-won-text" className={styles.drawCubesText}>You Win! Play Again</div>
+            </button>
         </div>
     );
 }

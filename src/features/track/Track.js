@@ -12,7 +12,7 @@ export function Track(props) {
 
     return (
         <div id={`track-${id}`} className={styles.track}>
-            <div id={`track-${id}-title`} className={styles.trackTitle}>
+            <div id={`track-${id}-title`} className={getTrackTitleClass(value)}>
                 {name}
             </div>
             <div id={`track-${id}-grid`} className={getGridClass(id)}>
@@ -89,6 +89,13 @@ function getGridClass(trackId) {
         default:
             return;
     }
+}
+
+function getTrackTitleClass(value) {
+    if (value === 0) {
+        return Util.makeImportantColor(styles.trackTitle);
+    }
+    return styles.trackTitle;
 }
 
 function getIncomeIconVisibility(trackId) {

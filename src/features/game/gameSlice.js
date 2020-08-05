@@ -401,6 +401,7 @@ export const gameSlice = createSlice({
                 state.currentEvent = undefined;
             }
         },
+        reset: (state) => initialState(),
         securitySpendingIncreasePopularity: (state) => {
             state.tracks[4].value = Math.min((state.tracks[4].value + 1), 10);
             state.currentEvent = undefined;
@@ -557,6 +558,7 @@ export const {
     refundPrivateEnterprise,
     refundSocialWelfare,
     removeLoanCube,
+    reset,
     securitySpendingIncreasePopularity,
     securitySpendingIncreasePublicSafety,
     specialOperationsReducePublicSafety,

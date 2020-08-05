@@ -46,6 +46,10 @@ code {
   font-weight: 900 !important;
 }
 
+.important-color {
+  color: red !important;
+}
+
 .important-event {
   border: 3px solid red !important;
 }

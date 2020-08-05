@@ -30,6 +30,8 @@ import {
     selectCubesToRemove,
     selectCurrentEvent,
     selectCuts,
+    selectGameLost,
+    selectGameWon,
     selectFundedInstitutions,
     selectInYearEnd,
     selectIncomeInTreasury,
@@ -55,6 +57,8 @@ export function EventHandler() {
     const cubesToRemove = useSelector(selectCubesToRemove);
     const currentEvent = useSelector(selectCurrentEvent);
     const cuts = useSelector(selectCuts);
+    const gameLost = useSelector(selectGameLost);
+    const gameWon = useSelector(selectGameWon);
     const fundedInstitutions = useSelector(selectFundedInstitutions);
     const inYearEnd = useSelector(selectInYearEnd);
     const incomeInTreasury = useSelector(selectIncomeInTreasury);
@@ -62,12 +66,19 @@ export function EventHandler() {
     const dispatch = useDispatch();
 
     return (
-        <div id="current-event-handler" className={styles.currentEventHandler}>
+        <div id="current-event-handler" className={getEventHandlerClass(gameLost, gameWon)}>
             <div id="event-buttons" className={showEventButtons(currentEvent)}>
                 {handleEvent(currentEvent, incomeInTreasury, cubesToRemove, cuts, institutionsToCut, inYearEnd, fundedInstitutions, dispatch)}
             </div>
         </div>
     );
+}
+
+function getEventHandlerClass(gameLost, gameWon) {
+    if (gameLost || gameWon) {
+        return Util.makeInvisible(styles.currentEventHandler);
+    }
+    return styles.currentEventHandler;
 }
 
 function showEventButtons(currentEvent) {

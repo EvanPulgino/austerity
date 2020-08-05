@@ -17,6 +17,10 @@ export function makeHighlighted(cssClass) {
     return cssClass + ' ' + Constants.HIGHLIGHTED;
 }
 
+export function makeImportantColor(cssClass) {
+    return cssClass + ' ' + Constants.IMPORTANT_COLOR;
+}
+
 export function makeImportantEvent(cssClass) {
     return cssClass + ' ' + Constants.IMPORTANT_EVENT;
 }
