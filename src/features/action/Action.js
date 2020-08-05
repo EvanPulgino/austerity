@@ -1,4 +1,12 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+    borrowMoney,
+    payLoan,
+    raiseTaxes,
+    selectActionsPossible,
+    selectCanPayLoan 
+} from '../game/gameSlice';
 import * as Constants from '../../constants';
 import * as Util from '../../util';
 import * as Actions from './ActionConstants';
@@ -7,24 +15,33 @@ import styles from'./Action.module.css';
 export function Action(props) {
     const id = props.id;
     const name = props.name;
-    const actionPossible = props.actionPossible;
+    const actionsPossible = useSelector(selectActionsPossible);
+    const canPayLoan = useSelector(selectCanPayLoan)
+    const dispatch = useDispatch();
 
-    return getButton(id, name, actionPossible);
+    return getButton(id, name, actionsPossible, canPayLoan, dispatch);
 }
 
-function getButton(id, name, actionPossible) {
-    var actionClass;
+function getButton(id, name, actionsPossible, canPayLoan, dispatch) {
+    var actionClass = styles.action;
+    var loanActionClass;
 
-    if (actionPossible) {
-        actionClass = Util.makeClickable(styles.action);
+    if (actionsPossible) {
+        actionClass = Util.makeClickable(actionClass);
+        if (canPayLoan) {
+            loanActionClass = Util.makeClickable(styles.action);
+        } else {
+            loanActionClass = Util.makeUnclickable(styles.action);
+        }
     } else {
-        actionClass = Util.makeUnclickable(styles.action);
+        actionClass = Util.makeUnclickable(actionClass);
+        loanActionClass = Util.makeUnclickable(actionClass);
     }
 
     switch (id) {
         case Actions.BORROW_MONEY_ID:
             return (
-                <div id={`action-${id}`} className={actionClass}>
+                <div id={`action-${id}`} className={actionClass} onClick={() => dispatch(borrowMoney())}>
                     <div id={`action-${id}-title`} className={styles.actionTitle}>
                         {name}
                     </div>
@@ -53,7 +70,10 @@ function getButton(id, name, actionPossible) {
             );
         case Actions.PAY_LOAN_ID:
             return (
-                <div id={`action-${id}`} className={actionClass}>
+                <div
+                    id={`action-${id}`}
+                    className={loanActionClass}
+                    onClick={() => dispatch(payLoan())}>
                     <div id={`action-${id}-title`} className={styles.actionTitle}>
                         {name}
                     </div>
@@ -79,7 +99,7 @@ function getButton(id, name, actionPossible) {
             );
         case Actions.RAISE_TAXES_ID:
             return (
-                <div id={`action-${id}`} className={actionClass}>
+                <div id={`action-${id}`} className={actionClass} onClick={() => dispatch(raiseTaxes())}>
                     <div id={`action-${id}-title`} className={styles.actionTitle}>
                         {name}
                     </div>

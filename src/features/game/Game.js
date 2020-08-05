@@ -28,13 +28,11 @@ export function Game() {
             <div id="game-column-container" className={styles.gameColumnLayout}>
                 <div id="game-col-1" className={styles.gameColumn}>
                     <div id="institutions" className={styles.institutions}>
-                    <h2 id="institutions-title" className={styles.sectionTitle}>Institutions</h2>
                         {buildInstitutionComponents(institutions)}
                     </div>
                 </div>
                 <div id="game-col-2" className={styles.gameColumn}>
                     <div id="actions" className={styles.actions}>
-                        <h2 id='actions-title' className={styles.sectionTitle}>Actions</h2>
                         {buildActionComponents(actions)}
                     </div>
                 </div>
@@ -45,7 +43,6 @@ export function Game() {
                             <DrawFromBagButton />
                         </div>
                         <div id="tracks" className={styles.tracks}>
-                            <h2 id='tracks-title' className={styles.sectionTitle}>Tracks</h2>
                             {buildTrackComponents(tracks)}
                         </div>
                     </div>
@@ -102,7 +99,8 @@ function buildInstitutionComponents(institutions) {
             id={institution.id}
             name={institution.name}
             cuts={institution.cuts}
-            value={institution.value} />
+            value={institution.value}
+            funded={institution.funded} />
     ));
 }
 

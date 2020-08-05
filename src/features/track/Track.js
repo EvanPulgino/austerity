@@ -16,7 +16,7 @@ export function Track(props) {
                 {name}
             </div>
             <div id={`track-${id}-grid`} className={getGridClass(id)}>
-                <div id="track-0" className={getTerminalItemClass(id, value)}>
+                <div id="track-0" className={getItemClass(id, value, 0)}>
                     0
                 </div>
                 <div id="track-1" className={getItemClass(id, value, 1)}>
@@ -34,63 +34,39 @@ export function Track(props) {
                 <div id="track-5" className={getItemClass(id, value, 5)}>
                     5
                     <div className={getIncomeIconVisibility(id)}>
-                        <img
-                            className={styles.trackIncomeIcon}
-                            src={Constants.INCOME_ICON}
-                            alt="income-icon" />
+                        {getIncomeIconImage(value, 5)}
                     </div>
                 </div>
                 <div id="track-6" className={getItemClass(id, value, 6)}>
                     6
                     <div className={getIncomeIconVisibility(id)}>
-                        <img
-                            className={styles.trackIncomeIcon}
-                            src={Constants.INCOME_ICON}
-                            alt="income-icon" />
+                        {getIncomeIconImage(value, 6)}
                     </div>
                 </div>
                 <div id="track-7" className={getItemClass(id, value, 7)}>
                     7
                     <div className={getIncomeIconVisibility(id)}>
-                        <img
-                            className={styles.trackIncomeIcon}
-                            src={Constants.INCOME_ICON}
-                            alt="income-icon" />
+                        {getIncomeIconImage(value, 7)}
                     </div>
                 </div>
                 <div id="track-8" className={getItemClass(id, value, 8)}>
                     8
                     <div className={getIncomeIconVisibility(id)}>
-                        <img
-                            className={styles.trackIncomeIcon}
-                            src={Constants.INCOME_ICON}
-                            alt="income-icon" />
+                        {getIncomeIconImage(value, 8)}
                     </div>
                 </div>
                 <div id="track-9" className={getItemClass(id, value, 9)}>
                     9
                     <div className={getIncomeIconVisibility(id)}>
-                        <img
-                            className={styles.trackIncomeIcon}
-                            src={Constants.INCOME_ICON}
-                            alt="income-icon" />
-                        <img
-                            className={styles.trackIncomeIcon}
-                            src={Constants.INCOME_ICON}
-                            alt="income-icon" />
+                        {getIncomeIconImage(value, 9)}
+                        {getIncomeIconImage(value, 9)}
                     </div>
                 </div>
                 <div id="track-10" className={getItemClass(id, value, 10)}>
                     10
                     <div className={getIncomeIconVisibility(id)}>
-                        <img
-                            className={styles.trackIncomeIcon}
-                            src={Constants.INCOME_ICON}
-                            alt="income-icon" />
-                        <img
-                            className={styles.trackIncomeIcon}
-                            src={Constants.INCOME_ICON}
-                            alt="income-icon" />
+                        {getIncomeIconImage(value, 10)}
+                        {getIncomeIconImage(value, 10)}
                     </div>
                 </div>
             </div>
@@ -122,48 +98,57 @@ function getIncomeIconVisibility(trackId) {
     return Util.makeInvisible(styles.incomeIconContainer);
 }
 
-function getItemClass(trackId, value, itemNum) {
-    var itemClass = styles.trackItem;
-
+function getIncomeIconImage(value, itemNum) {
     if (itemNum === value) {
-        itemClass = Util.makeHighlighted(itemClass);
+        return (
+            <img
+                className={styles.trackIncomeIcon}
+                src={Constants.INCOME_ICON_HIGHLIGHTED}
+                alt="income-icon" />
+        );
+    }
+    return (
+        <img
+            className={styles.trackIncomeIcon}
+            src={Constants.INCOME_ICON}
+            alt="income-icon" />
+    );
+}
+
+function getItemClass(trackId, value, itemNum) {
+    if (itemNum === value) {
+        return getHighlightedItemClass(trackId);
     }
 
     switch (trackId) {
         case Tracks.EMPLOYMENT_ID:
-            return TrackUtil.addEmploymentBorderDark(itemClass);
+            return TrackUtil.addEmploymentBorderDark(styles.trackItem);
         case Tracks.HEALTH_ID:
-            return TrackUtil.addHealthBorderDark(itemClass);
+            return TrackUtil.addHealthBorderDark(styles.trackItem);
         case Tracks.POPULARITY_ID:
-            return TrackUtil.addPopularityBorderDark(itemClass);
+            return TrackUtil.addPopularityBorderDark(styles.trackItem);
         case Tracks.PUBLIC_SAFETY_ID:
-            return TrackUtil.addPublicSafetyBorderDark(itemClass);
+            return TrackUtil.addPublicSafetyBorderDark(styles.trackItem);
         case Tracks.WEALTH_ID:
-            return TrackUtil.addWealthBorderDark(itemClass);
+            return TrackUtil.addWealthBorderDark(styles.trackItem);
         default:
-            return itemClass;
+            return styles.trackItem;
     }
 }
 
-function getTerminalItemClass(trackId, value) {
-    var itemClass = styles.trackTerminalItem;
-
-    if (0 === value) {
-        itemClass = Util.makeHighlighted(itemClass);
-    }
-
+function getHighlightedItemClass(trackId) {
     switch (trackId) {
         case Tracks.EMPLOYMENT_ID:
-            return TrackUtil.addEmploymentDark(TrackUtil.addEmploymentBorderLight(itemClass));
+            return TrackUtil.addEmploymentDark(TrackUtil.addEmploymentBorderDark(styles.trackHighlightedItem));
         case Tracks.HEALTH_ID:
-            return TrackUtil.addHealthDark(TrackUtil.addHealthBorderLight(itemClass));
+            return TrackUtil.addHealthDark(TrackUtil.addHealthBorderDark(styles.trackHighlightedItem));
         case Tracks.POPULARITY_ID:
-            return TrackUtil.addPopularityDark(TrackUtil.addPopularityBorderLight(itemClass));
+            return TrackUtil.addPopularityDark(TrackUtil.addPopularityBorderDark(styles.trackHighlightedItem));
         case Tracks.PUBLIC_SAFETY_ID:
-            return TrackUtil.addPublicSafetyDark(TrackUtil.addPublicSafetyBorderLight(itemClass));
+            return TrackUtil.addPublicSafetyDark(TrackUtil.addPublicSafetyBorderDark(styles.trackHighlightedItem));
         case Tracks.WEALTH_ID:
-            return TrackUtil.addWealthDark(TrackUtil.addWealthBorderLight(itemClass));
+            return TrackUtil.addWealthDark(TrackUtil.addWealthBorderDark(styles.trackHighlightedItem));
         default:
-            return itemClass;
+            return styles.trackHighlightedItem;
     }
 }

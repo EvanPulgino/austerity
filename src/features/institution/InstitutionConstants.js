@@ -8,6 +8,7 @@ export const INITIAL_NATIONAL_SECURITY = {
     name: NATIONAL_SECURITY_NAME,
     cuts: [Constants.DEBT_UNREST_CUT, Constants.DEBT_SECURITY_CUT],
     value: 0,
+    funded: false,
 };
 
 
@@ -19,6 +20,7 @@ export const INITIAL_PRIVATE_ENTERPRISE = {
     name: PRIVATE_ENTERPRISE_NAME,
     cuts: [Constants.DEBT_INCOME_CUT, Constants.DEBT_UNREST_CUT, Constants.DEBT_WELFARE_CUT],
     value: 0,
+    funded: false,
 };
 
 
@@ -30,4 +32,5 @@ export const INITIAL_SOCIAL_WELFARE = {
     name: SOCIAL_WELFARE_NAME,
     cuts: [Constants.DEBT_SECURITY_CUT, Constants.DEBT_INCOME_CUT, Constants.DEBT_WELFARE_CUT],
     value: 0,
+    funded: false,
 };

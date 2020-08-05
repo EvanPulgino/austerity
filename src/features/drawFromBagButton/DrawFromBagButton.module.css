@@ -8,6 +8,11 @@
     width: 250px;
 }
 
+.drawCubesButton:hover {
+    transform: scale(1.05);
+    transition: all .3s ease-in-out;
+}
+
 .drawCubesText {
     font-weight: 800;
 }

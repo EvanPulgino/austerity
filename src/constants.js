@@ -8,6 +8,7 @@ export const UNCLICKABLE = 'unclickable';
 // General Images
 export const ARROW = 'images/arrow.png';
 export const INCOME_ICON = 'images/income.png';
+export const INCOME_ICON_HIGHLIGHTED = 'images/income-highlighted.png';
 
 // Cube Images
 export const DEBT_CUBE = 'images/cubes/debt.png';

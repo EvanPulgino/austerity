@@ -12,8 +12,8 @@
     font-weight: 800;
     text-align: center;
     text-transform: uppercase;
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
 }
 
 .institutionFooter {
@@ -24,8 +24,8 @@
     font-weight: 800;
     text-align: center;
     text-transform: uppercase;
-    border-bottom-left-radius: 15px;
-    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
 }
 
 
@@ -39,7 +39,14 @@
 .institutionIncomeIcon {
     width: 45px;
     height: 45px;
+    border-radius: 5px;
 }
+
+.institutionIncomeIcon:hover {
+    transform: scale(1.05);
+    transition: all .3s ease-in-out;
+}
+
 
 .institutionArrow {
     width: 45px;
@@ -102,6 +109,11 @@
 .institutionGridFinalSpace {
     width: 115px;
     border-radius: 5px;
+}
+
+.institutionGridFinalSpace:hover {
+    transform: scale(1.05);
+    transition: all .3s ease-in-out;
 }
 
 .institutionCutText {

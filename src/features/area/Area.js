@@ -1,4 +1,7 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import { removeLoanCube } from '../game/gameSlice'
+import * as Areas from './AreaConstants';
 import * as Constants from '../../constants';
 import * as Util from '../../util';
 import styles from './Area.module.css';
@@ -11,6 +14,10 @@ export function Area(props) {
     const securityCount = getCubeCount(Constants.SECURITY_CUBE, contents);
     const unrestCount = getCubeCount(Constants.UNREST_CUBE, contents);
     const welfareCount = getCubeCount(Constants.WELFARE_CUBE, contents);
+    const dispatch = useDispatch();
+
+    const debtLoanPayload = {cube: Constants.DEBT_CUBE, area: getAreaIndex(name)};
+    const incomeLoanPayload = {cube: Constants.INCOME_CUBE, area: getAreaIndex(name)};
 
     return (
         <div id="area" className={styles.area}>
@@ -21,6 +28,7 @@ export function Area(props) {
                         <img
                             className={getCubeClass(Constants.DEBT_CUBE, contents)}
                             src={Constants.DEBT_CUBE}
+                            onClick={() => dispatch(removeLoanCube(debtLoanPayload))}
                             alt="Debt" />
                         <div className={styles.cubeCount}>{debtCount}</div>
                     </div>
@@ -28,6 +36,7 @@ export function Area(props) {
                         <img
                             className={getCubeClass(Constants.INCOME_CUBE, contents)}
                             src={Constants.INCOME_CUBE}
+                            onClick={() => dispatch(removeLoanCube(incomeLoanPayload))}
                             alt="Income" />
                         <div className={styles.cubeCount}>{incomeCount}</div>
                     </div>
@@ -58,6 +67,21 @@ export function Area(props) {
     );
 };
 
+function getAreaIndex(areaName) {
+    switch (areaName) {
+        case Areas.BAG_NAME:
+            return 0;
+        case Areas.CURRENT_NAME:
+            return 1;
+        case Areas.USED_NAME:
+            return 2;
+        case Areas.TREASURY_NAME:
+            return 3;
+        default:
+            return -1;
+    }
+}
+
 function getCubeCount(cubeType, contents) {
     var count = 0;
     for (let i = 0; i < contents.length; i++) {
@@ -71,7 +95,7 @@ function getCubeCount(cubeType, contents) {
 function getCubeClass(cubeType, contents) {
     for (let i = 0; i < contents.length; i++) {
         if (cubeType === contents[i].cube && contents[i].clickable) {
-            return Util.makeClickable(styles.areaCube);
+            return Util.makeImportantEvent(Util.makeClickable(styles.areaCube));
         }
     }
     return styles.areaCube;

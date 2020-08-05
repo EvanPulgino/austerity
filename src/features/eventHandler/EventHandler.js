@@ -1,10 +1,18 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
+    adjustHealth,
+    adjustPopularity,
+    adjustWealth,
     antiAusterityProtestsIncreasePopularity,
     antiAusterityProtestsRemoveCubes,
     backToWorkProgramme,
     budgetSurplus,
+    checkVictory,
+    collectTaxRevenue,
+    cutNationalSecurity,
+    cutPrivateEnterprise,
+    cutSocialWelfare,
     earlyRepaymentsFromCurrent,
     earlyRepaymentsFromTreasury,
     earlyRepaymentsOptOut,
@@ -15,10 +23,15 @@ import {
     politicalCorruption,
     securitySpendingIncreasePopularity,
     securitySpendingIncreasePublicSafety,
+    selectCubesToRemove,
     selectCurrentEvent,
+    selectCuts,
+    selectInYearEnd,
     selectIncomeInTreasury,
+    selectInstitutionsToCut,
     specialOperationsReducePublicSafety,
     specialOperationsRemoveCubes,
+    startNextYear,
     underfundedPoliceForceAddUnrest,
     underfundedPoliceForceTreasuryIncome,
     welfareBudgetProblemsReduceHealth,
@@ -27,19 +40,24 @@ import {
     welfareCheatCrakdownRemoveCube,
     welfareCheats,
 } from '../game/gameSlice';
+import * as Constants from '../../constants';
 import * as Util from '../../util';
 import * as Events from '../event/EventConstants';
 import styles from './EventHandler.module.css';
 
 export function EventHandler() {
+    const cubesToRemove = useSelector(selectCubesToRemove);
     const currentEvent = useSelector(selectCurrentEvent);
+    const cuts = useSelector(selectCuts);
+    const inYearEnd = useSelector(selectInYearEnd);
     const incomeInTreasury = useSelector(selectIncomeInTreasury);
+    const institutionsToCut = useSelector(selectInstitutionsToCut);
     const dispatch = useDispatch();
 
     return (
         <div id="current-event-handler" className={styles.currentEventHandler}>
             <div id="event-buttons" className={showEventButtons(currentEvent)}>
-            {handleEvent(currentEvent, incomeInTreasury, dispatch)}
+                {handleEvent(currentEvent, incomeInTreasury, cubesToRemove, cuts, institutionsToCut, inYearEnd, dispatch)}
             </div>
         </div>
     );
@@ -52,8 +70,19 @@ function showEventButtons(currentEvent) {
     return Util.makeInvisible(styles.eventButtons);
 }
 
-function handleEvent(currentEvent, incomeInTreasury, dispatch) {
+function handleEvent(currentEvent, incomeInTreasury, cubesToRemove, cuts, institutionsToCut, inYearEnd, dispatch) {
+
+    if (inYearEnd) {
+        return handleYearEnd(currentEvent, dispatch);
+    }
+
     switch (currentEvent) {
+        case "cut-institutions":
+            return handleInstitutionCuts(institutionsToCut);
+        case "implement-cuts":
+            return handleCuts(dispatch, cuts);
+        case "paying-loan":
+            return handlePayingLoan(cubesToRemove);
         case Events.ANTI_AUSTERITY_PROTESTS_ID:
             return handleAntiAusterityProtests(dispatch);
         case Events.BACK_TO_WORK_PROGRAMME_ID:
@@ -89,6 +118,103 @@ function handleEvent(currentEvent, incomeInTreasury, dispatch) {
     }
 }
 
+function handleYearEnd(currentEvent, dispatch) {
+    var checkWinClass = styles.eventButton;
+    var collectTaxRevenueClass = styles.eventButton;
+    var adjustWealthClass = styles.eventButton;
+    var adjustHealthClass = styles.eventButton;
+    var adjustPopularityClass = styles.eventButton;
+    var startNextYearClass = styles.eventButton;
+
+    switch (currentEvent) {
+        case 'check-victory':
+            collectTaxRevenueClass = Util.makeUnclickable(collectTaxRevenueClass);
+            adjustWealthClass = Util.makeUnclickable(adjustWealthClass);
+            adjustHealthClass = Util.makeUnclickable(adjustHealthClass);
+            adjustPopularityClass = Util.makeUnclickable(adjustPopularityClass);
+            startNextYearClass = Util.makeUnclickable(startNextYearClass);
+            break;
+        case 'collect-taxes':
+            checkWinClass = Util.makeInvisible(checkWinClass);
+            adjustWealthClass = Util.makeUnclickable(adjustWealthClass);
+            adjustHealthClass = Util.makeUnclickable(adjustHealthClass);
+            adjustPopularityClass = Util.makeUnclickable(adjustPopularityClass);
+            startNextYearClass = Util.makeUnclickable(startNextYearClass);
+            break;
+        case 'adjust-wealth':
+            checkWinClass = Util.makeInvisible(checkWinClass);
+            collectTaxRevenueClass = Util.makeInvisible(collectTaxRevenueClass);
+            adjustHealthClass = Util.makeUnclickable(adjustHealthClass);
+            adjustPopularityClass = Util.makeUnclickable(adjustPopularityClass);
+            startNextYearClass = Util.makeUnclickable(startNextYearClass);
+            break;
+        case 'adjust-health':
+            checkWinClass = Util.makeInvisible(checkWinClass);
+            collectTaxRevenueClass = Util.makeInvisible(collectTaxRevenueClass);
+            adjustWealthClass = Util.makeInvisible(adjustWealthClass);
+            adjustPopularityClass = Util.makeUnclickable(adjustPopularityClass);
+            startNextYearClass = Util.makeUnclickable(startNextYearClass);
+            break;
+        case 'adjust-popularity':
+            checkWinClass = Util.makeInvisible(checkWinClass);
+            collectTaxRevenueClass = Util.makeInvisible(collectTaxRevenueClass);
+            adjustWealthClass = Util.makeInvisible(adjustWealthClass);
+            adjustHealthClass = Util.makeInvisible(adjustHealthClass);
+            startNextYearClass = Util.makeUnclickable(startNextYearClass);
+            break;
+        case 'start-next-year':
+            checkWinClass = Util.makeInvisible(checkWinClass);
+            collectTaxRevenueClass = Util.makeInvisible(collectTaxRevenueClass);
+            adjustWealthClass = Util.makeInvisible(adjustWealthClass);
+            adjustHealthClass = Util.makeInvisible(adjustHealthClass);
+            adjustPopularityClass = Util.makeInvisible(adjustPopularityClass);
+            break;
+        default:
+            break;
+    }
+
+    return (
+        <div className={styles.eventButtons}>
+            <div
+                id="check-victory-button"
+                className={checkWinClass}
+                onClick={() => dispatch(checkVictory())}>
+                    Check Victory
+            </div>
+            <div
+                id="collect-taxes-button"
+                className={collectTaxRevenueClass}
+                onClick={() => dispatch(collectTaxRevenue())}>
+                    Collect Tax Revenue
+            </div>
+            <div
+                id="adjust-wealth-button"
+                className={adjustWealthClass}
+                onClick={() => dispatch(adjustWealth())}>
+                    Adjust Wealth
+            </div>
+            <div
+                id="adjust-health-button"
+                className={adjustHealthClass}
+                onClick={() => dispatch(adjustHealth())}>
+                    Adjust Health
+            </div>
+            <div
+                id="adjust-popularity-button"
+                className={adjustPopularityClass}
+                onClick={() => dispatch(adjustPopularity())}>
+                    Adjust Popularity
+            </div>
+            <div
+                id="start-next-year-button"
+                className={startNextYearClass}
+                onClick={() => dispatch(startNextYear())}>
+                    Start Next Year
+            </div>
+        </div>
+    );
+}
+
 function handleAntiAusterityProtests(dispatch) {
     return (
         <div className={styles.eventButtons}>
@@ -122,6 +248,65 @@ function handleBudgetSurplus(dispatch) {
             Increase WEALTH by one
         </div>
     );
+}
+
+function handleInstitutionCuts() {
+    return (
+        <div id="institution-cuts-message">
+            Resolve Cuts
+        </div>
+    );
+}
+
+function handleCuts(dispatch, cuts) {
+    switch(cuts) {
+        case Constants.DEBT_INCOME_CUT:
+            return (
+                <div id="cuts-choice">
+                    <div id="cut-private-enterprise" className={styles.eventButton} onClick={() => dispatch(cutPrivateEnterprise())}>
+                        Cut Private Enterprise
+                    </div>
+                    <div id="cut-social-welfare" className={styles.eventButton} onClick={() => dispatch(cutSocialWelfare())}>
+                        Cut Social Welfare
+                    </div>
+                </div>
+            );
+        case Constants.DEBT_SECURITY_CUT:
+            return (
+                <div id="cuts-choice">
+                    <div id="cut-national-security" className={styles.eventButton} onClick={() => dispatch(cutNationalSecurity())}>
+                        Cut National Security
+                    </div>
+                    <div id="cut-social-welfare" className={styles.eventButton} onClick={() => dispatch(cutSocialWelfare())}>
+                        Cut Social Welfare
+                    </div>
+                </div>
+            );
+        case Constants.DEBT_UNREST_CUT:
+            return (
+                <div id="cuts-choice">
+                    <div id="cut-private-enterprise" className={styles.eventButton} onClick={() => dispatch(cutPrivateEnterprise())}>
+                        Cut Private Enterprise
+                    </div>
+                    <div id="cut-national-security" className={styles.eventButton} onClick={() => dispatch(cutNationalSecurity())}>
+                        Cut National Security
+                    </div>
+                </div>
+            );
+        case Constants.DEBT_WELFARE_CUT:
+            return (
+                <div id="cuts-choice">
+                    <div id="cut-private-enterprise" className={styles.eventButton} onClick={() => dispatch(cutPrivateEnterprise())}>
+                        Cut Private Enterprise
+                    </div>
+                    <div id="cut-social-welfare" className={styles.eventButton} onClick={() => dispatch(cutSocialWelfare())}>
+                        Cut Social Welfare
+                    </div>
+                </div>
+            );
+        default: 
+            return;
+    }
 }
 
 function handleEarlyRepaymemts(incomeInTreasury, dispatch) {
@@ -183,6 +368,38 @@ function handleNationalisedHealthcareSpending(dispatch) {
     return (
         <div id="nationalised-healthcare-spending-button" className={styles.eventButton} onClick={() => dispatch(nationalisedHealthcareSpending())}>
             Increase HEALTH by two
+        </div>
+    );
+}
+
+function handlePayingLoan(cubesToRemove) {
+    var debtClass = styles.loanText;
+    var incomeClass = styles.loanText;
+    var debtCount = 0;
+    var incomeCount = 0;
+
+    for (let i = 0; i < cubesToRemove.length; i++) {
+        if (cubesToRemove[i] === Constants.DEBT_CUBE) {
+            debtCount++;
+        }
+        if (cubesToRemove[i] === Constants.INCOME_CUBE) {
+            incomeCount++;
+        }
+    }
+
+    if (debtCount === 0) {
+        debtClass = Util.makeInvisible(debtClass)
+    }
+
+    if (incomeCount === 0) {
+        incomeClass = Util.makeInvisible(debtClass);
+    }
+
+    return (
+        <div id="paying-loan" className={styles.payingLoanMessage}>
+            <div>Remove</div>
+            <div className={incomeClass}>{incomeCount} Income</div>
+            <div className={debtClass}>{debtCount} Debt</div>
         </div>
     );
 }

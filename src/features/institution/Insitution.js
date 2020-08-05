@@ -1,4 +1,15 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+    cutNationalSecurityFinal,
+    cutPrivateEnterpriseFinal,
+    cutSocialWelfareFinal,
+    fundNationalSecurity,
+    fundPrivateEnterprise,
+    fundSocialWelfare,
+    selectCurrentEvent,
+    selectCuts, 
+} from '../game/gameSlice';
 import * as Constants from '../../constants';
 import * as Util from '../../util';
 import * as Institutions from './InstitutionConstants';
@@ -10,18 +21,18 @@ export function Institution(props) {
     const name = props.name;
     const cuts = props.cuts;
     const value = props.value;
+    const funded = props.funded;
+    const activeCuts = useSelector(selectCuts);
+    const currentEvent = useSelector(selectCurrentEvent);
+    const dispatch = useDispatch();
 
     return (
-        <div id={`instituion-${id}`} className={styles.institution}>
+        <div id={`instituion-${id}`} className={getInstitutionClass(id, activeCuts)}>
             <div id={`institution-${id}-header`} className={getHeaderClass(id)}>
                 {name}
             </div>
             <div id={`institution-${id}-action`} className={styles.institutionAction}>
-                <img
-                    id={`institution-${id}-income-icon`}
-                    className={styles.institutionIncomeIcon}
-                    src={Constants.INCOME_ICON}
-                    alt={`institution-${id}-income`} />
+                {getFundingImage(id, funded, currentEvent, dispatch)}
                 <img
                     id={`institution-${id}-arrow`}
                     className={styles.institutionArrow}
@@ -36,7 +47,7 @@ export function Institution(props) {
                 <div id={`institution-${id}-grid-0`} className={getGridStartSpaceClass(id, value)} />
                 <div id={`institution-${id}-grid-1`} className={getGridSpaceClass(id, 1, value, styles.institutionGridSpace)} />
                 <div id={`institution-${id}-grid-2`} className={getGridSpaceClass(id, 2, value, styles.institutionGridSpace)} />
-                {getCutsEffect(id, value)}
+                {getCutsEffect(id, value, dispatch)}
             </div>
             <div id={`institution-${id}-header`} className={getFooterClass(id)} />
         </div>
@@ -95,11 +106,14 @@ function getCuts(id, cuts) {
     return cutsBlock;
 }
 
-function getCutsEffect(id, value) {
+function getCutsEffect(id, value, dispatch) {
     switch (id) {
         case Institutions.NATIONAL_SECURITY_ID:
             return (
-                <div id={`institution-${id}-grid-3`} className={getGridSpaceClass(id, 3, value, styles.institutionGridFinalSpace)}>
+                <div
+                    id={`institution-${id}-grid-3`}
+                    className={getGridSpaceClass(id, 3, value, styles.institutionGridFinalSpace)}
+                    onClick={() => dispatch(cutNationalSecurityFinal())}>
                     <span className={styles.institutionCutText}>Add</span>
                     <img
                         id={`institution-${id}-cut-cube`}
@@ -110,13 +124,19 @@ function getCutsEffect(id, value) {
             );
         case Institutions.PRIVATE_ENTERPRISE_ID:
             return (
-                <div id={`institution-${id}-grid-3`} className={getGridSpaceClass(id, 3, value, styles.institutionGridFinalSpace)}>
+                <div
+                    id={`institution-${id}-grid-3`}
+                    className={getGridSpaceClass(id, 3, value, styles.institutionGridFinalSpace)}
+                    onClick={() => dispatch(cutPrivateEnterpriseFinal())}>
                     <span className={styles.institutionCutText}>-2 Employment</span>
                 </div>
             );
         case Institutions.SOCIAL_WELFARE_ID:
             return (
-                <div id={`institution-${id}-grid-3`} className={getGridSpaceClass(id, 3, value, styles.institutionGridFinalSpace)}>
+                <div
+                    id={`institution-${id}-grid-3`}
+                    className={getGridSpaceClass(id, 3, value, styles.institutionGridFinalSpace)}
+                    onClick={() => dispatch(cutSocialWelfareFinal())}>
                     <span className={styles.institutionCutText}>-2 Health</span>
                 </div>
             );
@@ -125,8 +145,60 @@ function getCutsEffect(id, value) {
     }
 }
 
+function getFundingImage(id, funded, currentEvent, dispatch) {
+    if (funded) {
+        return (
+            <img
+                id={`institution-${id}-income-icon`}
+                className={styles.institutionIncomeIcon}
+                src={Constants.INCOME_CUBE}
+                alt={`institution-${id}-income`} />
+        );
+    }
+
+    var iconStyle = styles.institutionIncomeIcon;
+
+    if (currentEvent === 'fund-institution') {
+        iconStyle = Util.makeImportantEvent(Util.makeClickable(iconStyle));
+    }
+
+    switch (id) {
+        case Institutions.NATIONAL_SECURITY_ID:
+            return (
+                <img
+                    id={`institution-${id}-income-icon`}
+                    className={iconStyle}
+                    src={Constants.INCOME_ICON}
+                    onClick={() => dispatch(fundNationalSecurity())}
+                    alt={`institution-${id}-income`} />
+            );
+        case Institutions.PRIVATE_ENTERPRISE_ID:
+            return (
+                <img
+                    id={`institution-${id}-income-icon`}
+                    className={iconStyle}
+                    src={Constants.INCOME_ICON}
+                    onClick={() => dispatch(fundPrivateEnterprise())}
+                    alt={`institution-${id}-income`} />
+            );
+            case Institutions.SOCIAL_WELFARE_ID:
+                return (
+                    <img
+                        id={`institution-${id}-income-icon`}
+                        className={iconStyle}
+                        src={Constants.INCOME_ICON}
+                        onClick={() => dispatch(fundSocialWelfare())}
+                        alt={`institution-${id}-income`} />
+                );
+        default:
+            return;
+    }
+}
+
 function getGridSpaceClass(id, gridNum, value, cssClass) {
-    if (value === gridNum) {
+    if (value === gridNum && gridNum === 3) {
+        cssClass = Util.makeImportantEvent(Util.makeClickable(cssClass));
+    } else if (value === gridNum) {
         cssClass = Util.makeHighlighted(cssClass);
     }
 
@@ -186,5 +258,32 @@ function getFooterClass(id) {
             return styles.institutionFooter
     }
 };
+
+function getInstitutionClass(id, activeCuts) {
+    switch (activeCuts) {
+        case Constants.DEBT_INCOME_CUT:
+            if (id === Institutions.PRIVATE_ENTERPRISE_ID || id === Institutions.SOCIAL_WELFARE_ID) {
+                return Util.makeImportantEvent(styles.institution);
+            }
+            return styles.institution;
+        case Constants.DEBT_SECURITY_CUT:
+            if (id === Institutions.NATIONAL_SECURITY_ID || id === Institutions.SOCIAL_WELFARE_ID) {
+                return Util.makeImportantEvent(styles.institution);
+            }
+            return styles.institution;
+        case Constants.DEBT_UNREST_CUT:
+            if (id === Institutions.PRIVATE_ENTERPRISE_ID || id === Institutions.NATIONAL_SECURITY_ID) {
+                return Util.makeImportantEvent(styles.institution);
+            }
+            return styles.institution;
+        case Constants.DEBT_WELFARE_CUT:
+            if (id === Institutions.PRIVATE_ENTERPRISE_ID || id === Institutions.SOCIAL_WELFARE_ID) {
+                return Util.makeImportantEvent(styles.institution);
+            }
+            return styles.institution;
+        default:
+            return styles.institution;
+    }
+}
 
 export default Institution;

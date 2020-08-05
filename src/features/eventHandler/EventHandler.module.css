@@ -16,3 +16,8 @@
     min-height: 50px;
     width: 250px;
 }
+
+.eventButton:hover {
+    transform: scale(1.05);
+    transition: all .3s ease-in-out;
+}
